@@ -2,11 +2,11 @@
 var questions = [ 
 
     {question: "1.) What does HTML stand for?", 
-    answers:{ a: "Hypertext Makeup Language", b:"Hypertext Markdown Language ", c: "Hypertext Markup Language", d: "Hypertype Meaning Language"},
+    answers:[ "Hypertext Makeup Language", "Hypertext Markdown Language ", "Hypertext Markup Language", "Hypertype Meaning Language"],
     correctAnswer: "Hypertext Markup Language"},
 
     {question: "2.) What is the purpose of JavaScript?",
-    answers: {a: "For webpage styling", b: "For webpage sturcture & markup", c: "For webpage interaction & functionality", d: "For displaying static information"},
+    answers: ["For webpage styling", "For webpage sturcture & markup", "For webpage interaction & functionality", "For displaying static information"],
     correctAnswer: "For webpage interaction & functionality"},
 
     {question: "3.) A ___ allows users to move from one page to another.",
@@ -17,6 +17,7 @@ var questions = [
     answers: {a: "{p:color=pink}", b: "p {color: pink;}", c: "p: {color=pink}", d: "{p;color: pink}"},
     correctAnswer: "p {color: pink;}"}
 ]
+
 
 //Elements pulled bt ID from the HTML DOM.
 var startButton = document.getElementById("btn-start");
@@ -29,7 +30,7 @@ var displayHighScore = document.getElementById("highScoreDisplay");
 var endScreen = document.getElementById("end-screen");
 var displayResults = document.getElementById("results");
 var scoreTracker = 0;
-var quesCount = 0;
+var questionIndex = 0;
 var timeLeft = 45;
 
 
@@ -43,36 +44,27 @@ function startGame() { //code to start timer and gets to 1st question//
     startScreen.style.display ="none";
     timer();
     nextQuestion();
-    answersButtons();
+    // answersButtons();
 }
 
 
 function nextQuestion() {
-    
-    for (var i = 0; i < questions.length; i++) {
-        // quizScreen.style.display = "block";
-        var spanForQuestion = document.createElement("span");
-        var questionText = spanForQuestion.textContent = questions[i].question;
-        questionP.append(questionText);
-
-        var answerButtons = document.createElement("button");
-        var answerText = answerButtons.textContent = questions[i].answers.a;
-        answersDiv.append(answerText);
-        
-    };
-
-        // questionP.textContent = questions.question;
-        // answersDiv.innerHTML = "";
-        // questions.question.answers.forEach(function(answers) {
-        //     var button = document.createElement("button");
-        //     button.setAttribute("class", "btn btn-secondary");
-        //     button.setAttribute("value", questions.correctAnswer);
-        //     button.textContent = questions.answer.a;
-        //     answersDiv.appendChild(button);
-        // });
+  
         // questionIndex++;
-    }
+        questionP.textContent = questions[questionIndex].question;
 
+        answersDiv.innerHTML = "";
+        questions[questionIndex].answers.forEach(function(x) {
+            var button = document.createElement("button");
+            button.setAttribute("class", "btn btn-secondary");
+            button.setAttribute("value", questions[questionIndex].correctAnswer);
+            button.textContent = x;
+            answersDiv.appendChild(button); 
+        });
+        
+        
+        //x is a placeholder
+    }
 
 
 //Timer counts down from ? secs & -5 secs when wrong choice// //if this runs out before finish answering, show scores & end of quiz// 
@@ -92,9 +84,34 @@ function timer() {
     }, 1000);
 }
 
+answersDiv.addEventListener("click", function (event) {
+    // console.log(event.target.value);
+    // answersButtons("hello"); //prevents nesting functions and passes other functions
+    // answersButtons("old school");
+    answersButtons(event);
+});
+    
 
 function answersButtons (e) { 
+    console.log(e);
+    var target = e.target.textContent
+
+    if (questions[questionIndex].correctAnswer === target) {
+        console.log("Correct!");
+        scoreTracker++;
+        console.log(scoreTracker++);
+        
+        
+    }else {
+        console.log("Wrong!");
+        timeLeft-5
+        console.log(timeLeft-5);
+        nextQuestion()
+    }
+    questionIndex++;
     
+
+   
     // var click = document.getElementById(e.id).value;
     // if (click === corrAnswer) {
     //     scoreTracker++;
@@ -111,6 +128,7 @@ function answersButtons (e) {
     // else{
     //     alert("Wrong!");
     // }
+    
 }
 
 
@@ -120,7 +138,7 @@ function correctAnswers() {
 
 
 function presentScore() { //alert/show score as "0%, 25%, 75%, or 100%" correct etc//
-    scoreTracker++ 
+    // scoreTracker++ 
      
 }
 
