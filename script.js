@@ -50,7 +50,7 @@ function startGame() { //code to start timer and gets to 1st question//
 
 function nextQuestion() {
   
-        // questionIndex++;
+        
         questionP.textContent = questions[questionIndex].question;
 
         answersDiv.innerHTML = "";
@@ -61,6 +61,8 @@ function nextQuestion() {
             button.textContent = x;
             answersDiv.appendChild(button); 
         });
+
+        questionIndex++;
         
         
         //x is a placeholder
