@@ -10,11 +10,11 @@ var questions = [
     correctAnswer: "For webpage interaction & functionality"},
 
     {question: "3.) A ___ allows users to move from one page to another.",
-    answers: {a: "browser", b: "video ", c: "HTML", d: "hyperlink"},
+    answers: ["browser", "video ", "HTML", "hyperlink"],
     correctAnswer: "hyperlink"},
 
     {question: "4.) Which is the proper CSS syntax?",
-    answers: {a: "{p:color=pink}", b: "p {color: pink;}", c: "p: {color=pink}", d: "{p;color: pink}"},
+    answers: ["{p:color=pink}", "p {color: pink;}", "p: {color=pink}", "{p;color: pink}"],
     correctAnswer: "p {color: pink;}"}
 ]
 
@@ -44,7 +44,7 @@ function startGame() { //code to start timer and gets to 1st question//
     startScreen.style.display ="none";
     timer();
     nextQuestion();
-    // answersButtons();
+    // wrongRight();
 }
 
 
@@ -57,7 +57,7 @@ function nextQuestion() {
         questions[questionIndex].answers.forEach(function(x) {
             var button = document.createElement("button");
             button.setAttribute("class", "btn btn-secondary");
-            button.setAttribute("value", questions[questionIndex].correctAnswer);
+            button.setAttribute("value", questions[questionIndex].answers[x]);
             button.textContent = x;
             answersDiv.appendChild(button); 
         });
@@ -80,21 +80,21 @@ function timer() {
             var scoreText = "You Scored: " + scoreTracker + "/4"
             displayResults.textContent = scoreText
         } else {
-            timeLeft--;
             displayTimer.textContent = timeLeft;
+            timeLeft--;
         }
     }, 1000);
 }
 
 answersDiv.addEventListener("click", function (event) {
     // console.log(event.target.value);
-    // answersButtons("hello"); //prevents nesting functions and passes other functions
-    // answersButtons("old school");
-    answersButtons(event);
+    // wrongRight("hello"); //prevents nesting functions and passes other functions
+    // wrongRight("old school");
+    wrongRight(event);
 });
     
 
-function answersButtons (e) { 
+function wrongRight (e) { 
     console.log(e);
     var target = e.target.textContent
 
@@ -102,6 +102,7 @@ function answersButtons (e) {
         console.log("Correct!");
         scoreTracker++;
         console.log(scoreTracker++);
+        nextQuestion()
         
         
     }else {
